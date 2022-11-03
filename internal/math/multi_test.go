@@ -23,3 +23,25 @@ func TestMultiply(t *testing.T) {
 		}
 	}
 }
+
+func FuzzMultiply(f *testing.F) {
+	type scenery struct {
+		n1        int
+		n2        int
+		expectRes int
+	}
+
+	sceneries := []scenery{
+		{n1: 3, n2: 2, expectRes: 6},
+		{n1: 76, n2: 4, expectRes: 304},
+		{n1: 0, n2: 4, expectRes: 0},
+	}
+
+	for _, testScen := range sceneries {
+		f.Add(testScen.n1, testScen.n2)
+	}
+
+	f.Fuzz(func(t *testing.T, n1, n2 int) {
+		_ = Multiply(n1, n2)
+	})
+}

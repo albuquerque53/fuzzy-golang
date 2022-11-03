@@ -23,3 +23,25 @@ func TestSum(t *testing.T) {
 		}
 	}
 }
+
+func FuzzSum(f *testing.F) {
+	type scenery struct {
+		n1        int
+		n2        int
+		expectRes int
+	}
+
+	sceneries := []scenery{
+		{n1: 2, n2: 3, expectRes: 5},
+		{n1: 76, n2: 4, expectRes: 80},
+		{n1: 0, n2: 4, expectRes: 4},
+	}
+
+	for _, testScen := range sceneries {
+		f.Add(testScen.n1, testScen.n2)
+	}
+
+	f.Fuzz(func(t *testing.T, n1, n2 int) {
+		_ = Sum(n1, n2)
+	})
+}
