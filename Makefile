@@ -1,4 +1,4 @@
 run:
 	go run main.go
 test:
-	go test --fuzzy
+	go test ./... -v
